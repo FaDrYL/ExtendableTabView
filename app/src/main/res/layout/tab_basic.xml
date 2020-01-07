@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:padding="@dimen/tab_rounded_corner">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text Size:"
+            android:textSize="16sp"
+            android:textColor="#ff030601"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:id="@+id/tab_basic_textSize_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14sp"
+            android:textSize="14sp"
+            android:textColor="#ff3c3c3c"/>
+    </LinearLayout>
+    <SeekBar
+        android:id="@+id/tab_basic_textSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:min="1"
+        android:max="100"
+        android:progress="14"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+</LinearLayout>

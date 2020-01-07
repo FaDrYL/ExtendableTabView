@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensions -->
+    <dimen name="tab_rounded_corner">7dp</dimen>
+    <dimen name="tab_elevation">10dp</dimen>
+    <dimen name="tab_elevation_2">9dp</dimen>
+    <dimen name="tab_elevation_3">8dp</dimen>
+    <dimen name="tab_width">25dp</dimen>
+    <dimen name="tab_height">45dp</dimen>
+    <dimen name="tab_textSize">16sp</dimen>
+
+    <!-- Colors -->
+    <color name="tab_background_selected">#ffcccccc</color>
+    <color name="tab_background_unselected">#ffeeeeee</color>
+    <color name="tab_textColor_selected">#ffD81B60</color>
+    <color name="tab_textColor_unselected">#ff000000</color>
+
+</resources>

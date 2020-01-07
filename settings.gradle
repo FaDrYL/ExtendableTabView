@@ -1,0 +1,2 @@
+include ':app', ':extendabletabview'
+rootProject.name='Extendable Tab Bar'

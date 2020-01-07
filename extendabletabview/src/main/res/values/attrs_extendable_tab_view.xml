@@ -1,0 +1,27 @@
+<resources>
+    <declare-styleable name="ExtendableTabView">
+        <attr name="orientation_selector" format="integer">1</attr>
+        <attr name="orientation_extend" format="integer">3</attr>
+
+        <!-- Dimensions -->
+        <attr name="tab_rounded_corner" format="dimension">@dimen/tab_rounded_corner</attr>
+        <attr name="tab_elevation" format="dimension">@dimen/tab_elevation</attr>
+        <attr name="tab_elevation_2" format="dimension">@dimen/tab_elevation_2</attr>
+        <attr name="tab_elevation_3" format="dimension">@dimen/tab_elevation_3</attr>
+        <attr name="tab_width" format="dimension">@dimen/tab_width</attr>
+        <attr name="tab_height" format="dimension">@dimen/tab_height</attr>
+        <attr name="tab_textSize" format="dimension">@dimen/tab_textSize</attr>
+
+        <!-- Colors -->
+        <attr name="tab_background_selected" format="color">@color/tab_background_selected</attr>
+        <attr name="tab_background_unselected" format="color">@color/tab_background_unselected</attr>
+        <attr name="tab_textColor_selected" format="color">@color/tab_textColor_selected</attr>
+        <attr name="tab_textColor_unselected" format="color">@color/tab_textColor_unselected</attr>
+
+        <!-- Drawable -->
+        <attr name="tab_open_background" format="integer">@drawable/rounded_corner_left</attr>
+        <attr name="tab_open_src" format="integer">@drawable/ic_arrow_left</attr>
+        <attr name="tab_close_background" format="integer">@drawable/rounded_corner_left</attr>
+        <attr name="tab_close_src" format="integer">@drawable/ic_arrow_right</attr>
+    </declare-styleable>
+</resources>
