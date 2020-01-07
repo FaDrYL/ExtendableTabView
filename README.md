@@ -15,6 +15,29 @@ A custom Tab.
 
 
 ## Customize
+### Orientation (int)
+| Extend to | int |
+|:---------:|:---:|
+|    Top    |  0  |
+|   Bottom  |  1  |
+|    Left   |  2  |
+|   Right   |  3  |
+```xml
+<com.yl.widgets.extendabletabview.ExtendableTabView
+	android:id="@+id/extendableTabView"
+	android:layout_width="match_parent"
+	android:layout_height="200dp"
+	android:layout_marginBottom="10dp"
+	android:layout_marginLeft="10dp"
+	app:layout_constraintBottom_toBottomOf="parent"
+	app:layout_constraintLeft_toLeftOf="parent"
+	app:layout_constraintRight_toRightOf="parent"
+	app:orientation_selector="2"
+	app:orientation_extend="0"
+	app:tab_width="25dp"
+	app:tab_height="40dp"/>
+```
+### Add Item(s)
 ```Java
 LinearLayout ll_basic = (LinearLayout) getLayoutInflater().inflate(R.layout.tab_basic, null);
 final TextView tv_textSize_hint = ll_basic.findViewById(R.id.tab_basic_textSize_hint);
