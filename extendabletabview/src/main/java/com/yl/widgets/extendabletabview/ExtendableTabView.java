@@ -42,6 +42,8 @@ public class ExtendableTabView extends FrameLayout {
     private LinearLayout ll_body;
     private View tv_select_anim;
 
+    private boolean isExtended = false;
+
     // style
     private int orientation_selector = ORIENTATION_LEFT;   // open
     private int orientation_extend = ORIENTATION_UP;     // body
@@ -110,44 +112,31 @@ public class ExtendableTabView extends FrameLayout {
         ll_body.setWeightSum(1);
         ll_body.setVisibility(View.GONE);
         tv_select_anim = v_main.findViewById(R.id.tab_select_anim);
-
-        int resId_animIn_selector_t;
-        int resId_animOut_selector_t;
         int resId_drawableOpen_arrow;
         int resId_drawableClose_arrow;
         int resId_drawable_bg;
         switch (orientation_selector){
             case 0:
-                resId_animIn_selector_t = R.anim.slide_from_bottom;
-                resId_animOut_selector_t = R.anim.slide_to_bottom;
                 resId_drawableOpen_arrow = R.drawable.ic_arrow_up;
                 resId_drawableClose_arrow = R.drawable.ic_arrow_down;
                 resId_drawable_bg = R.drawable.rounded_corner_top;
                 break;
             case 1:
-                resId_animIn_selector_t = R.anim.slide_from_top;
-                resId_animOut_selector_t = R.anim.slide_to_top;
                 resId_drawableOpen_arrow = R.drawable.ic_arrow_down;
                 resId_drawableClose_arrow = R.drawable.ic_arrow_up;
                 resId_drawable_bg = R.drawable.rounded_corner_bottom;
                 break;
             case 2:
-                resId_animIn_selector_t = R.anim.slide_from_right;
-                resId_animOut_selector_t = R.anim.slide_to_right;
                 resId_drawableOpen_arrow = R.drawable.ic_arrow_left;
                 resId_drawableClose_arrow = R.drawable.ic_arrow_right;
                 resId_drawable_bg = R.drawable.rounded_corner_left;
                 break;
             default:
-                resId_animIn_selector_t = R.anim.slide_from_left;
-                resId_animOut_selector_t = R.anim.slide_to_left;
                 resId_drawableOpen_arrow = R.drawable.ic_arrow_right;
                 resId_drawableClose_arrow = R.drawable.ic_arrow_left;
                 resId_drawable_bg = R.drawable.rounded_corner_right;
                 break;
         }
-        final int resId_animIn_selector = resId_animIn_selector_t;
-        final int resId_animOut_selector = resId_animOut_selector_t;
         iv_tab_open.setImageResource(resId_drawableOpen_arrow);
         iv_tab_open.setBackgroundResource(resId_drawable_bg);
         ConstraintLayout.LayoutParams param_open = (ConstraintLayout.LayoutParams) iv_tab_open.getLayoutParams();
@@ -162,74 +151,16 @@ public class ExtendableTabView extends FrameLayout {
         param_close.height = (int)tab_height;
         iv_tab_close.setLayoutParams(param_close);
 
-        int resId_animIn_body_t;
-        int resId_animOut_body_t;
-        switch (orientation_extend){
-            case 0:
-                resId_animIn_body_t = R.anim.slide_from_bottom;
-                resId_animOut_body_t = R.anim.slide_to_bottom;
-                break;
-            case 1:
-                resId_animIn_body_t = R.anim.slide_from_top;
-                resId_animOut_body_t = R.anim.slide_to_top;
-                break;
-            case 2:
-                resId_animIn_body_t = R.anim.slide_from_right;
-                resId_animOut_body_t = R.anim.slide_to_right;
-                break;
-            default:
-                resId_animIn_body_t = R.anim.slide_from_left;
-                resId_animOut_body_t = R.anim.slide_to_left;
-                break;
-        }
-        final int resId_animIn_body = resId_animIn_body_t;
-        final int resId_animOut_body = resId_animOut_body_t;
-
         iv_tab_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation slide_in = AnimationUtils.loadAnimation(context, resId_animIn_selector);
-                ll_tab.setVisibility(View.VISIBLE);
-                ll_tab.startAnimation(slide_in);
-                iv_tab_open.setVisibility(View.GONE);
+                extend();
             }
         });
         iv_tab_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final int old_index = tab_pos_old;
-                Animation slide_out = AnimationUtils.loadAnimation(context, resId_animOut_selector);
-                ll_tab.startAnimation(slide_out);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ll_tab.setVisibility(GONE);
-                        if(old_index != -1) {
-                            ll_body.getChildAt(old_index).setVisibility(GONE);
-                        }
-                    }
-                }, slide_out.getDuration());
-
-                if(tab_pos_old != -1) {
-                    TextView tv = (TextView) ll_tab_inner.getChildAt(tab_pos_old);
-                    tv.setTextColor(tab_textColor_unselected);
-                    tv.setBackgroundColor(Color.TRANSPARENT);
-                    tab_pos_old = -1;
-                    if(ll_body.getVisibility() == View.VISIBLE) {
-                        Animation slide_out_body = AnimationUtils.loadAnimation(context, resId_animOut_body);
-                        ll_body.startAnimation(slide_out_body);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                ll_body.setVisibility(GONE);
-                            }
-                        }, slide_out_body.getDuration());
-                    }
-                }
-                tv_select_anim.setAnimation(null);
-                tv_select_anim.setVisibility(View.GONE);
-
-                iv_tab_open.setVisibility(View.VISIBLE);
+                collapse();
             }
         });
     }
@@ -269,6 +200,109 @@ public class ExtendableTabView extends FrameLayout {
         v_main = LayoutInflater.from(context).inflate(resId_main, this, true);
     }
 
+
+    public void extend(){
+        isExtended = true;
+        ConstraintLayout ll_tab = v_main.findViewById(R.id.tab_cl);
+        ImageView iv_tab_open = v_main.findViewById(R.id.tab_open);
+
+        int resId_animIn_selector;
+        switch (orientation_selector){
+            case 0:
+                resId_animIn_selector = R.anim.slide_from_bottom;
+                break;
+            case 1:
+                resId_animIn_selector = R.anim.slide_from_top;
+                break;
+            case 2:
+                resId_animIn_selector = R.anim.slide_from_right;
+                break;
+            default:
+                resId_animIn_selector = R.anim.slide_from_left;
+                break;
+        }
+
+        Animation slide_in = AnimationUtils.loadAnimation(context, resId_animIn_selector);
+        ll_tab.setVisibility(View.VISIBLE);
+        ll_tab.startAnimation(slide_in);
+        iv_tab_open.setVisibility(View.GONE);
+    }
+
+    public void collapse(){
+        isExtended = false;
+        final ConstraintLayout ll_tab = v_main.findViewById(R.id.tab_cl);
+        ImageView iv_tab_open = v_main.findViewById(R.id.tab_open);
+
+        int resId_animOut_selector;
+        switch (orientation_selector){
+            case 0:
+                resId_animOut_selector = R.anim.slide_to_bottom;
+                break;
+            case 1:
+                resId_animOut_selector = R.anim.slide_to_top;
+                break;
+            case 2:
+                resId_animOut_selector = R.anim.slide_to_right;
+                break;
+            default:
+                resId_animOut_selector = R.anim.slide_to_left;
+                break;
+        }
+
+        int resId_animOut_body;
+        switch (orientation_extend){
+            case 0:
+                resId_animOut_body = R.anim.slide_to_bottom;
+                break;
+            case 1:
+                resId_animOut_body = R.anim.slide_to_top;
+                break;
+            case 2:
+                resId_animOut_body = R.anim.slide_to_right;
+                break;
+            default:
+                resId_animOut_body = R.anim.slide_to_left;
+                break;
+        }
+
+        final int old_index = tab_pos_old;
+        Animation slide_out = AnimationUtils.loadAnimation(context, resId_animOut_selector);
+        ll_tab.startAnimation(slide_out);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ll_tab.setVisibility(GONE);
+                if(old_index != -1) {
+                    ll_body.getChildAt(old_index).setVisibility(GONE);
+                }
+            }
+        }, slide_out.getDuration());
+
+        if(tab_pos_old != -1) {
+            TextView tv = (TextView) ll_tab_inner.getChildAt(tab_pos_old);
+            tv.setTextColor(tab_textColor_unselected);
+            tv.setBackgroundColor(Color.TRANSPARENT);
+            tab_pos_old = -1;
+            if(ll_body.getVisibility() == View.VISIBLE) {
+                Animation slide_out_body = AnimationUtils.loadAnimation(context, resId_animOut_body);
+                ll_body.startAnimation(slide_out_body);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ll_body.setVisibility(GONE);
+                    }
+                }, slide_out_body.getDuration());
+            }
+        }
+        tv_select_anim.setAnimation(null);
+        tv_select_anim.setVisibility(View.GONE);
+
+        iv_tab_open.setVisibility(View.VISIBLE);
+    }
+
+    public boolean isExtended(){
+        return isExtended;
+    }
 
     public ExtendableTabView clearItems(){
         ll_tab_inner.removeAllViews();

@@ -3,6 +3,7 @@ package com.yl.fadr.extendabletabbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout[] lls = new LinearLayout[]{ll_basic,
                 null,
                 (LinearLayout) View.inflate(getApplicationContext(), R.layout.sample_body_3, null)};
+
         tab.addItems(strs, lls);
     }
 }
