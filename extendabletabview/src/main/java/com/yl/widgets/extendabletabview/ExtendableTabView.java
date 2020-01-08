@@ -3,6 +3,8 @@ package com.yl.widgets.extendabletabview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.ArrayList;
 
@@ -58,6 +61,7 @@ public class ExtendableTabView extends FrameLayout {
     private int tab_textColor_unselected = Color.parseColor("#ff000000");
     private int tab_bgColor_selected = Color.parseColor("#ffcccccc");
     private int tab_bgColor_unselected = Color.parseColor("#ffeeeeee");
+    private int tab_imageColor_tint = Color.parseColor("#ff000000");
 
     private int tab_pos_old = -1;
     private View v_main;
@@ -94,6 +98,7 @@ public class ExtendableTabView extends FrameLayout {
                 tab_textColor_unselected = ta.getColor(R.styleable.ExtendableTabView_tab_textColor_unselected, Color.parseColor("#ff000000"));
                 tab_bgColor_selected = ta.getColor(R.styleable.ExtendableTabView_tab_background_selected, Color.parseColor("#ffcccccc"));
                 tab_bgColor_unselected = ta.getColor(R.styleable.ExtendableTabView_tab_background_unselected, Color.parseColor("#ffeeeeee"));
+                tab_imageColor_tint = ta.getColor(R.styleable.ExtendableTabView_tab_imageColor_tint, Color.parseColor("#ff000000"));
             } finally {
                 ta.recycle();
             }
@@ -137,15 +142,22 @@ public class ExtendableTabView extends FrameLayout {
                 resId_drawable_bg = R.drawable.rounded_corner_right;
                 break;
         }
-        iv_tab_open.setImageResource(resId_drawableOpen_arrow);
+
+        Drawable drawable_open = getResources().getDrawable(resId_drawableOpen_arrow);
+        DrawableCompat.setTint(drawable_open, tab_imageColor_tint);
+        iv_tab_open.setImageDrawable(drawable_open);
         iv_tab_open.setBackgroundResource(resId_drawable_bg);
+        iv_tab_open.getBackground().setColorFilter(tab_bgColor_unselected, PorterDuff.Mode.SRC_ATOP);
         ConstraintLayout.LayoutParams param_open = (ConstraintLayout.LayoutParams) iv_tab_open.getLayoutParams();
         param_open.width = (int)tab_width;
         param_open.height = (int)tab_height;
         iv_tab_open.setLayoutParams(param_open);
 
-        iv_tab_close.setImageResource(resId_drawableClose_arrow);
+        Drawable drawable_close = getResources().getDrawable(resId_drawableClose_arrow);
+        DrawableCompat.setTint(drawable_close, tab_imageColor_tint);
+        iv_tab_close.setImageDrawable(drawable_close);
         iv_tab_close.setBackgroundResource(resId_drawable_bg);
+        iv_tab_close.getBackground().setColorFilter(tab_bgColor_unselected, PorterDuff.Mode.SRC_ATOP);
         ConstraintLayout.LayoutParams param_close = (ConstraintLayout.LayoutParams) iv_tab_close.getLayoutParams();
         param_close.width = (int)tab_width;
         param_close.height = (int)tab_height;
@@ -357,6 +369,7 @@ public class ExtendableTabView extends FrameLayout {
      */
     public ExtendableTabView addItem(String title, @Nullable LinearLayout ll_subList){
         ll_tab_inner.setWeightSum(ll_tab_inner.getChildCount()+1);
+        ll_tab_inner.setBackgroundColor(tab_bgColor_unselected);
         if(ll_subList == null){
             ll_subList = new LinearLayout(context);
             ll_subList.setTag("null");

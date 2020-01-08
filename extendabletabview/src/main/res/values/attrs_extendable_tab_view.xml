@@ -17,6 +17,7 @@
         <attr name="tab_background_unselected" format="color">@color/tab_background_unselected</attr>
         <attr name="tab_textColor_selected" format="color">@color/tab_textColor_selected</attr>
         <attr name="tab_textColor_unselected" format="color">@color/tab_textColor_unselected</attr>
+        <attr name="tab_imageColor_tint" format="color">@color/tab_imageColor_tint</attr>
 
         <!-- Drawable -->
         <attr name="tab_open_background" format="integer">@drawable/rounded_corner_left</attr>

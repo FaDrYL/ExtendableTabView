@@ -14,5 +14,6 @@
     <color name="tab_background_unselected">#ffeeeeee</color>
     <color name="tab_textColor_selected">#ffD81B60</color>
     <color name="tab_textColor_unselected">#ff000000</color>
+    <color name="tab_imageColor_tint">#ff000000</color>
 
 </resources>
