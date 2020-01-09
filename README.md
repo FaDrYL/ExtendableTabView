@@ -59,19 +59,37 @@ ArrayList<String> strs = new ArrayList<String>();
 strs.add("BASIC");
 strs.add("90");
 strs.add("100");
-LinearLayout[] lls = new LinearLayout[]{ll_basic,
-        null,
-        (LinearLayout) View.inflate(getApplicationContext(), R.layout.sample_body_3, null)};
+
+ArrayList<LinearLayout> lls = new ArrayList<>();
+lls.add(ll_basic);
+lls.add(null);
+lls.add((LinearLayout) View.inflate(getApplicationContext(), R.layout.sample_body_3, null));
 
 
-/* without expand:  .addItem(String title, OnClickListener onClickListener)
- *                  .addItems(ArrayList<String>, ArrayList<OnClickListener>)
- *
- * with expand:     .addItem(String title, LinearLayout LinearLayoutlinearLayout)
- *                  .addItems(ArrayList<String>, LinearLayout[])
+/* .addItem(String title, LinearLayout LinearLayoutlinearLayout)
+*  .addItems(ArrayList<String>, ArrayList<LinearLayout>)
 */
 tab.addItems(strs, lls);
 // or (for add one item): tab.addItem("BASIC", ll_basic)
+
+// OnEventListener
+tab.setOnEventListener(new ExtendableTabView.OnEventListener() {
+            @Override
+            public void onExtended() {
+                Log.i(TAG, "onExtended: ");
+            }
+
+            @Override
+            public void onCollapsed() {
+                Log.i(TAG, "onCollapsed: ");
+            }
+
+            @Override
+            public void onItemClicked(View view) {
+                Log.i(TAG, "onItemClicked: "+
+                        ((TextView)view).getText());
+            }
+        });
 ```
 
 
@@ -90,7 +108,7 @@ allprojects {
 ```
 dependencies {
     ...
-    implementation 'com.github.FaDrYL:ExtendableTabView:0.5.2'
+    implementation 'com.github.FaDrYL:ExtendableTabView:0.5.3'
 }
 ```
 
@@ -109,7 +127,7 @@ dependencies {
 <dependency>
     <groupId>com.github.FaDrYL</groupId>
     <artifactId>ExtendableTabView</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
 </dependency>
 ```
 	
