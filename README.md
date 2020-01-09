@@ -90,7 +90,7 @@ allprojects {
 ```
 dependencies {
     ...
-    implementation 'com.github.FaDrYL:ExtendableTabView:0.5.1'
+    implementation 'com.github.FaDrYL:ExtendableTabView:0.5.2'
 }
 ```
 
@@ -109,7 +109,7 @@ dependencies {
 <dependency>
     <groupId>com.github.FaDrYL</groupId>
     <artifactId>ExtendableTabView</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.2</version>
 </dependency>
 ```
 	
