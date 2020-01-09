@@ -47,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
         strs.add("BASIC");
         strs.add("90");
         strs.add("100");
-        LinearLayout[] lls = new LinearLayout[]{ll_basic,
-                null,
-                (LinearLayout) View.inflate(getApplicationContext(), R.layout.sample_body_3, null)};
+        ArrayList<LinearLayout> lls = new ArrayList<>();
+        lls.add(ll_basic);
+        lls.add(null);
+        lls.add((LinearLayout) View.inflate(getApplicationContext(), R.layout.sample_body_3, null));
 
         tab.addItems(strs, lls);
 

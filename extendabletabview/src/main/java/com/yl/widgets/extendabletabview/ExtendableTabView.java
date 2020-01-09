@@ -7,7 +7,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -461,12 +460,12 @@ public class ExtendableTabView extends FrameLayout {
      * @param ll_subLists: linearLayouts for sublist that opened when click the item
      * @return ExtendableTabView self
      */
-    public ExtendableTabView addItems(ArrayList<String> titles, LinearLayout[] ll_subLists){
-        if(titles.size() != ll_subLists.length){
+    public ExtendableTabView addItems(ArrayList<String> titles, ArrayList<LinearLayout> ll_subLists){
+        if(titles.size() != ll_subLists.size()){
             throw new IndexOutOfBoundsException("Size of titles and Size of ll_subLists must be equal.");
         }else{
             for (int i = 0; i < titles.size(); i++){
-                addItem(titles.get(i), ll_subLists[i]);
+                addItem(titles.get(i), ll_subLists.get(i));
             }
         }
         return this;
