@@ -15,6 +15,7 @@ import com.yl.widgets.extendabletabview.ExtendableTabView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private String TAG = "ETV_Sample_MainActivity->";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +52,23 @@ public class MainActivity extends AppCompatActivity {
                 (LinearLayout) View.inflate(getApplicationContext(), R.layout.sample_body_3, null)};
 
         tab.addItems(strs, lls);
+
+        tab.setOnEventLister(new ExtendableTabView.OnEventListener() {
+            @Override
+            public void onExtended() {
+                Log.i(TAG, "onExtended: ");
+            }
+
+            @Override
+            public void onCollapsed() {
+                Log.i(TAG, "onCollapsed: ");
+            }
+
+            @Override
+            public void onItemClicked(View view) {
+                Log.i(TAG, "onItemClicked: "+
+                        ((TextView)view).getText());
+            }
+        });
     }
 }

@@ -47,6 +47,8 @@ public class ExtendableTabView extends FrameLayout {
 
     private boolean isExtended = false;
 
+    OnEventListener onEventListener;
+
     // style
     private int orientation_selector = ORIENTATION_LEFT;   // open
     private int orientation_extend = ORIENTATION_UP;     // body
@@ -167,12 +169,18 @@ public class ExtendableTabView extends FrameLayout {
             @Override
             public void onClick(View v) {
                 extend();
+                if(onEventListener != null) {
+                    onEventListener.onExtended();
+                }
             }
         });
         iv_tab_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 collapse();
+                if(onEventListener != null) {
+                    onEventListener.onCollapsed();
+                }
             }
         });
     }
@@ -210,6 +218,16 @@ public class ExtendableTabView extends FrameLayout {
                 break;
         }
         v_main = LayoutInflater.from(context).inflate(resId_main, this, true);
+    }
+
+    public void setOnEventLister(OnEventListener onEventLister){
+        this.onEventListener = onEventLister;
+    }
+
+    public interface OnEventListener{
+        void onExtended();
+        void onCollapsed();
+        void onItemClicked(View view);
     }
 
 
@@ -322,44 +340,6 @@ public class ExtendableTabView extends FrameLayout {
         return this;
     }
 
-    /**
-     * Without animation when change selected item
-     * @param title: title for the item
-     * @param onClickListener: click listener for the item
-     * @return ExtendableTabView self
-     */
-    public ExtendableTabView addItem(String title, OnClickListener onClickListener){
-        ll_tab_inner.setWeightSum(ll_tab_inner.getChildCount()+1);
-        TextView tv = new TextView(context);
-        tv.setTag(ll_tab_inner.getChildCount());
-        tv.setText(title);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, tab_textSize);
-        tv.setTextColor(tab_textColor_unselected);
-        tv.setClickable(true);
-        tv.setElevation(11);
-        tv.setGravity(Gravity.CENTER);
-        tv.setOnClickListener(onClickListener);
-        tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
-        ll_tab_inner.addView(tv);
-        return this;
-    }
-
-    /**
-     * Without animation when change selected item
-     * @param titles: titles for the items
-     * @param onClickListeners: click listeners for the items
-     * @return ExtendableTabView self
-     */
-    public ExtendableTabView addItems(ArrayList<String> titles, ArrayList<OnClickListener> onClickListeners){
-        if(titles.size() != onClickListeners.size()){
-            throw new IndexOutOfBoundsException("Size of titles and Size of onClickListeners must be equal.");
-        }else{
-            for (int i = 0; i < titles.size(); i++){
-                addItem(titles.get(i), onClickListeners.get(i));
-            }
-        }
-        return this;
-    }
 
     /**
      * With animation when change selected item
@@ -381,7 +361,7 @@ public class ExtendableTabView extends FrameLayout {
         }
         ll_body.addView(ll_subList);
 
-        TextView tv = new TextView(context);
+        final TextView tv = new TextView(context);
         tv.setTag(ll_tab_inner.getChildCount());
         tv.setText(title);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, tab_textSize);
@@ -463,6 +443,9 @@ public class ExtendableTabView extends FrameLayout {
                             }
                         }, slide_out.getDuration());
                     }
+                }
+                if(onEventListener != null) {
+                    onEventListener.onItemClicked(tv);
                 }
             }
         });
