@@ -219,8 +219,8 @@ public class ExtendableTabView extends FrameLayout {
         v_main = LayoutInflater.from(context).inflate(resId_main, this, true);
     }
 
-    public void setOnEventLister(OnEventListener onEventLister){
-        this.onEventListener = onEventLister;
+    public void setOnEventListener(OnEventListener onEventListener){
+        this.onEventListener = onEventListener;
     }
 
     public interface OnEventListener{

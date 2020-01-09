@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         tab.addItems(strs, lls);
 
-        tab.setOnEventLister(new ExtendableTabView.OnEventListener() {
+        tab.setOnEventListener(new ExtendableTabView.OnEventListener() {
             @Override
             public void onExtended() {
                 Log.i(TAG, "onExtended: ");
