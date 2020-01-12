@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -339,6 +340,9 @@ public class ExtendableTabView extends FrameLayout {
         return this;
     }
 
+    public ExtendableTabView addItem(String title){
+        return addItem(title, null);
+    }
 
     /**
      * With animation when change selected item
@@ -365,8 +369,9 @@ public class ExtendableTabView extends FrameLayout {
         tv.setText(title);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, tab_textSize);
         tv.setTextColor(tab_textColor_unselected);
+        tv.setBackground(null);
         tv.setClickable(true);
-        tv.setElevation(11);
+        tv.setElevation(getResources().getDimension(R.dimen.tab_elevation)+1);
         tv.setGravity(Gravity.CENTER);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -375,12 +380,22 @@ public class ExtendableTabView extends FrameLayout {
                     final int old_index = tab_pos_old;
                     tab_pos_old = (int) v.getTag();
 
+                    ll_tab_inner.setBackground(null);
+
                     // Transition animation
                     if(old_index != -1) {
                         tv_select_anim.setVisibility(View.VISIBLE);
-                        tv_select_anim.setX(ll_tab_inner.getX() + v.getWidth() * old_index);
-                        tv_select_anim.setY(ll_tab_inner.getY());
-                        tv_select_anim.setLayoutParams(new ConstraintLayout.LayoutParams(v.getWidth(), v.getHeight()));
+                        if(orientation_selector >= 2) {
+                            tv_select_anim.setX(ll_tab_inner.getX() + v.getWidth() * old_index);
+                            tv_select_anim.setY(ll_tab_inner.getY());
+                        }else {
+                            tv_select_anim.setX(ll_tab_inner.getX());
+                            tv_select_anim.setY(ll_tab_inner.getY() + v.getHeight() * old_index);
+                        }
+                        ConstraintLayout.LayoutParams cl_lp = (ConstraintLayout.LayoutParams) tv_select_anim.getLayoutParams();
+                        cl_lp.width = v.getWidth();
+                        cl_lp.height = v.getHeight();
+                        tv_select_anim.setLayoutParams(cl_lp);
                         TranslateAnimation anim_move = orientation_selector >= 2?
                                 new TranslateAnimation(0, (tab_pos_old - old_index) * v.getWidth(), 0, 0)
                                 :new TranslateAnimation(0, 0, 0, (tab_pos_old - old_index) * v.getHeight());
@@ -390,15 +405,14 @@ public class ExtendableTabView extends FrameLayout {
                     }
 
                     // ...
-                    if(old_index != -1) {
-                        TextView tv = ((TextView) ll_tab_inner.getChildAt(old_index));
-                        tv.setTextColor(tab_textColor_unselected);
-                        tv.setBackgroundColor(Color.TRANSPARENT);
-                    }
-
                     ((TextView) v).setTextColor(tab_textColor_selected);
                     if(old_index == -1) {
                         ((TextView) v).setBackgroundColor(tab_bgColor_selected);
+                    }else {
+                        TextView tv = ((TextView) ll_tab_inner.getChildAt(old_index));
+                        tv.setTextColor(tab_textColor_unselected);
+                        tv.setBackgroundColor(Color.TRANSPARENT);
+                        tv.setBackground(null);
                     }
 
                     int resId_animIn_body;

@@ -58,8 +58,7 @@
                 android:background="@color/tab_background_selected"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="parent"
-                android:visibility="gone"/>
+                app:layout_constraintLeft_toRightOf="parent"/>
             <LinearLayout
                 android:id="@+id/tab_inner_ll"
                 android:layout_width="0dp"
