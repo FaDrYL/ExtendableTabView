@@ -28,7 +28,11 @@
         app:orientation_selector="2"
         app:orientation_extend="0"
         app:tab_width="25dp"
-        app:tab_height="40dp"/>
+        app:tab_height="40dp"
+        app:tab_background_unselected="#ff80dafe"
+        app:tab_background_selected="#ea7933"
+        app:tab_textColor_unselected="#000000"
+        app:tab_textColor_selected="#79ee80"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

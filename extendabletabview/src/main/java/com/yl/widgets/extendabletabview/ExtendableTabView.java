@@ -118,7 +118,10 @@ public class ExtendableTabView extends FrameLayout {
         ll_body = v_main.findViewById(R.id.tab_body_ll);
         ll_body.setWeightSum(1);
         ll_body.setVisibility(View.GONE);
+        ConstraintLayout ll_inner_group = findViewById(R.id.tab_inner_group);
+        ll_inner_group.setBackgroundColor(tab_bgColor_unselected);
         tv_select_anim = v_main.findViewById(R.id.tab_select_anim);
+        tv_select_anim.setBackgroundColor(tab_bgColor_selected);
         int resId_drawableOpen_arrow;
         int resId_drawableClose_arrow;
         int resId_drawable_bg;
@@ -186,6 +189,12 @@ public class ExtendableTabView extends FrameLayout {
     }
 
     private void init_tabView(){
+        if(orientation_selector < 2 && orientation_extend < 2){
+            throw new IllegalArgumentException("orientation of selector and extend must be different dimensions");
+        }else if(orientation_selector >= 2 && orientation_extend >= 2){
+            throw new IllegalArgumentException("orientation of selector and extend must be different dimensions");
+        }
+
         String ori = String.valueOf(orientation_selector) + String.valueOf(orientation_extend);
         int resId_main;
         switch (ori){

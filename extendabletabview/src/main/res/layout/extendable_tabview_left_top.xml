@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/tab_gap"
             android:layout_width="1dp"
-            android:layout_height="@dimen/tab_height"
+            android:layout_height="0dp"
             android:elevation="@dimen/tab_elevation"
             android:background="#808080"
             app:layout_constraintTop_toTopOf="@+id/tab_close"
